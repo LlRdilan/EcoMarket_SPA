@@ -1,4 +1,4 @@
-package com.example.EcoMarket_SPA.Controller;
+package com.example.EcoMarket_SPA.Model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
