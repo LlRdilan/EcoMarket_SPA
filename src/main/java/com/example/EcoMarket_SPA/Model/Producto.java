@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 public class Producto {
 
     private int idProducto;
-    private String nombreProducto;
+    private String NombreProducto;
     private int PrecioProducto;
+
 
 }
