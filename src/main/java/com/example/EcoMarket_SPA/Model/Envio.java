@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Envio {
-
-    private int idEnvio;
-    private String direccion;
+    private int id;
+    private Pedido pedido;
+    private Cliente cliente;
     private Boolean estadoEnvio;
 
 }
