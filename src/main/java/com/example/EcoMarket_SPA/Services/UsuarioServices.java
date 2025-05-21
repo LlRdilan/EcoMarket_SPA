@@ -30,6 +30,6 @@ public class UsuarioServices {
 
     public String  deleteUsuario(int id) {
         usuarioRepository.eliminar(id);
-        return "Venta Eliminado";
+        return "Usuario Eliminado";
     }
 }
