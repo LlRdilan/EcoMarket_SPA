@@ -14,27 +14,28 @@ public class UsuarioController {
     private UsuarioServices usuarioServices;
 
     @GetMapping
-    public List<Usuario> listarUsuarios() {
+    public List<Usuario> getUsuarios() {
         return usuarioServices.getUsuarios();
     }
 
-    @PostMapping
-    public Usuario agregarUsuario(@RequestBody Usuario usuario) {
-        return usuarioServices.saveUsuario(usuario);
-    }
-
-    @GetMapping({"{id}"})
-    public Usuario buscarUsuario(@PathVariable int id) {
+    @GetMapping("/{id}")
+    public Usuario getUsuario(@PathVariable int id) {
         return usuarioServices.getUsuarioId(id);
     }
 
-    @PutMapping({"{id}"})
-    public Usuario actualizarUsuario(@PathVariable int id, @RequestBody Usuario usuario) {
-        return usuarioServices.updateUsuario(usuario);
+    @PostMapping
+    public Usuario crearUsuario(@RequestBody Usuario usuario) {
+        return usuarioServices.saveUsuario(usuario);
     }
 
-    @DeleteMapping({"{id}"})
+    @PutMapping("/{id}")
+    public Usuario actualizarUsuario(@PathVariable int id, @RequestBody Usuario usuario) {
+        return usuarioServices.updateUsuario(id, usuario);
+    }
+
+    @DeleteMapping("/{id}")
     public String eliminarUsuario(@PathVariable int id) {
-        return usuarioServices.deleteUsuario(id);
+        boolean eliminado = usuarioServices.deleteUsuario(id);
+        return eliminado ? "Usuario eliminado" : "Usuario no encontrado";
     }
 }

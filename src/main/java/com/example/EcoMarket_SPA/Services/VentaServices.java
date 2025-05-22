@@ -11,25 +11,32 @@ public class VentaServices {
     @Autowired
     private VentaRepository ventaRepository;
 
-    public List<Venta> getVentas(){
-    return ventaRepository.getVentas();
+    public List<Venta> getVentas() {
+        return ventaRepository.findAll();
     }
 
-    public Venta saveVenta (Venta venta) {
-        return ventaRepository.guardar(venta);
+    public Venta saveVenta(Venta venta) {
+        return ventaRepository.save(venta);
     }
 
     public Venta getVentaId(int id) {
-        return ventaRepository.buscarPorId(id);
+        return ventaRepository.findById(id).orElse(null);
     }
 
-    public Venta updateVenta(Venta venta){
-        return ventaRepository.actualizar(venta);
+    public Venta updateVenta(int id, Venta venta) {
+        if (ventaRepository.existsById(id)) {
+            venta.setId(id);
+            return ventaRepository.save(venta);
+        }
+        return null;
     }
 
-    public String  deleteVenta(int id) {
-        ventaRepository.eliminar(id);
-        return "Venta Eliminado";
+    public boolean deleteVenta(int id) {
+        if (ventaRepository.existsById(id)) {
+            ventaRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 }

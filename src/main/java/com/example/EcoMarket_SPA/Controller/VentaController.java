@@ -13,27 +13,28 @@ public class VentaController {
     private VentaServices ventaServices;
 
     @GetMapping
-    public List<Venta> listarVentas() {
+    public List<Venta> getVentas() {
         return ventaServices.getVentas();
     }
 
-    @PostMapping
-    public Venta agregarVenta(@RequestBody Venta venta) {
-        return ventaServices.saveVenta(venta);
-    }
-
-    @GetMapping({"{id}"})
-    public Venta buscarVenta(@PathVariable int id) {
+    @GetMapping("/{id}")
+    public Venta getVenta(@PathVariable int id) {
         return ventaServices.getVentaId(id);
     }
 
-    @PutMapping({"{id}"})
-    public Venta actualizarVenta(@PathVariable int id, @RequestBody Venta venta) {
-        return ventaServices.updateVenta(venta);
+    @PostMapping
+    public Venta crearVenta(@RequestBody Venta venta) {
+        return ventaServices.saveVenta(venta);
     }
 
-    @DeleteMapping({"{id}"})
-    public String eliminarLibro(@PathVariable int id) {
-        return ventaServices.deleteVenta(id);
+    @PutMapping("/{id}")
+    public Venta actualizarVenta(@PathVariable int id, @RequestBody Venta venta) {
+        return ventaServices.updateVenta(id, venta);
+    }
+
+    @DeleteMapping("/{id}")
+    public String eliminarVenta(@PathVariable int id) {
+        boolean eliminado = ventaServices.deleteVenta(id);
+        return eliminado ? "Venta eliminada" : "Venta no encontrada";
     }
 }

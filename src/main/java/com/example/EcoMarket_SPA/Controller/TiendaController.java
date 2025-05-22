@@ -14,27 +14,28 @@ public class TiendaController {
     private TiendaServices tiendaServices;
 
     @GetMapping
-    public List<Tienda> listarTiendas() {
+    public List<Tienda> getTiendas() {
         return tiendaServices.getTiendas();
     }
 
-    @PostMapping
-    public Tienda agregarTienda(@RequestBody Tienda tienda) {
-        return tiendaServices.saveTienda(tienda);
-    }
-
-    @GetMapping({"{id}"})
-    public Tienda buscarTienda(@PathVariable int id) {
+    @GetMapping("/{id}")
+    public Tienda getTienda(@PathVariable int id) {
         return tiendaServices.getTiendaId(id);
     }
 
-    @PutMapping({"{id}"})
-    public Tienda actualizarTienda(@PathVariable int id, @RequestBody Tienda tienda) {
-        return tiendaServices.updateTienda(tienda);
+    @PostMapping
+    public Tienda crearTienda(@RequestBody Tienda tienda) {
+        return tiendaServices.saveTienda(tienda);
     }
 
-    @DeleteMapping({"{id}"})
+    @PutMapping("/{id}")
+    public Tienda actualizarTienda(@PathVariable int id, @RequestBody Tienda tienda) {
+        return tiendaServices.updateTienda(id, tienda);
+    }
+
+    @DeleteMapping("/{id}")
     public String eliminarTienda(@PathVariable int id) {
-        return tiendaServices.deleteTienda(id);
+        boolean eliminado = tiendaServices.deleteTienda(id);
+        return eliminado ? "Tienda eliminada" : "Tienda no encontrada";
     }
 }

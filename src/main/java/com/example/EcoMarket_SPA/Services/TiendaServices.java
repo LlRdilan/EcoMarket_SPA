@@ -12,24 +12,31 @@ public class TiendaServices {
     @Autowired
     private TiendaRepository tiendaRepository;
 
-    public List<Tienda> getTiendas(){
-        return tiendaRepository.getTiendas();
+    public List<Tienda> getTiendas() {
+        return tiendaRepository.findAll();
     }
 
-    public Tienda saveTienda (Tienda tienda) {
-        return tiendaRepository.guardar(tienda);
+    public Tienda saveTienda(Tienda tienda) {
+        return tiendaRepository.save(tienda);
     }
 
     public Tienda getTiendaId(int id) {
-        return tiendaRepository.buscarPorId(id);
+        return tiendaRepository.findById(id).orElse(null);
     }
 
-    public Tienda updateTienda(Tienda tienda){
-        return tiendaRepository.actualizar(tienda);
+    public Tienda updateTienda(int id, Tienda tienda) {
+        if (tiendaRepository.existsById(id)) {
+            tienda.setId(id);
+            return tiendaRepository.save(tienda);
+        }
+        return null;
     }
 
-    public String  deleteTienda(int id) {
-        tiendaRepository.eliminar(id);
-        return "Tienda Eliminada";
+    public boolean deleteTienda(int id) {
+        if (tiendaRepository.existsById(id)) {
+            tiendaRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

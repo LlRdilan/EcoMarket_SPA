@@ -14,27 +14,28 @@ public class ReviewController {
     private ReviewServices reviewServices;
 
     @GetMapping
-    public List<Review> listarReviews() {
-        return reviewServices.getReview();
+    public List<Review> getAllReviews() {
+        return reviewServices.getAllReviews();
+    }
+
+    @GetMapping("/{id}")
+    public Review getReview(@PathVariable int id) {
+        return reviewServices.getReview(id);
     }
 
     @PostMapping
-    public Review agregarReview(@RequestBody Review review) {
+    public Review crearReview(@RequestBody Review review) {
         return reviewServices.saveReview(review);
     }
 
-    @GetMapping({"{id}"})
-    public Review buscarReview(@PathVariable int id) {
-        return reviewServices.getReviewId(id);
-    }
-
-    @PutMapping({"{id}"})
+    @PutMapping("/{id}")
     public Review actualizarReview(@PathVariable int id, @RequestBody Review review) {
-        return reviewServices.updateReview(review);
+        return reviewServices.updateReview(id, review);
     }
 
-    @DeleteMapping({"{id}"})
+    @DeleteMapping("/{id}")
     public String eliminarReview(@PathVariable int id) {
-        return reviewServices.deleteReview(id);
+        boolean eliminado = reviewServices.deleteReview(id);
+        return eliminado ? "Review eliminada" : "Review no encontrada";
     }
 }

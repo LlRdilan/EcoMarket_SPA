@@ -12,24 +12,31 @@ public class UsuarioServices {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public List<Usuario> getUsuarios(){
-        return usuarioRepository.getUsuarios();
+    public List<Usuario> getUsuarios() {
+        return usuarioRepository.findAll();
     }
 
-    public Usuario saveUsuario (Usuario usuario) {
-        return usuarioRepository.guardar(usuario);
+    public Usuario saveUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
     public Usuario getUsuarioId(int id) {
-        return usuarioRepository.buscarPorId(id);
+        return usuarioRepository.findById(id).orElse(null);
     }
 
-    public Usuario updateUsuario(Usuario usuario){
-        return usuarioRepository.actualizar(usuario);
+    public Usuario updateUsuario(int id, Usuario usuario) {
+        if (usuarioRepository.existsById(id)) {
+            usuario.setId(id);
+            return usuarioRepository.save(usuario);
+        }
+        return null;
     }
 
-    public String  deleteUsuario(int id) {
-        usuarioRepository.eliminar(id);
-        return "Usuario Eliminado";
+    public boolean deleteUsuario(int id) {
+        if (usuarioRepository.existsById(id)) {
+            usuarioRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

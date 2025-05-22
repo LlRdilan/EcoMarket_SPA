@@ -12,24 +12,31 @@ public class ReviewServices {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    public List<Review> getReview(){
-        return reviewRepository.getReviews();
+    public List<Review> getAllReviews() {
+        return reviewRepository.findAll();
     }
 
-    public Review saveReview (Review review) {
-        return reviewRepository.guardar(review);
+    public Review getReview(int id) {
+        return reviewRepository.findById(id).orElse(null);
     }
 
-    public Review getReviewId(int id) {
-        return reviewRepository.buscarPorId(id);
+    public Review saveReview(Review review) {
+        return reviewRepository.save(review);
     }
 
-    public Review updateReview(Review review){
-        return reviewRepository.actualizar(review);
+    public Review updateReview(int id, Review review) {
+        if (reviewRepository.existsById(id)) {
+            review.setId(id);
+            return reviewRepository.save(review);
+        }
+        return null;
     }
 
-    public String  deleteReview(int id) {
-        reviewRepository.eliminar(id);
-        return "Review Eliminada";
+    public boolean deleteReview(int id) {
+        if (reviewRepository.existsById(id)) {
+            reviewRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
