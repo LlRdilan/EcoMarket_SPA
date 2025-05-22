@@ -1,7 +1,12 @@
-package com.example.EcoMarket_SPA.Repository;
 
+package com.example.EcoMarket_SPA.Repository;
+import java.util.List;
+import java.util.ArrayList;
+import com.example.EcoMarket_SPA.Model.Producto;
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class ProductoRepository {
-  
     private List<Producto> productos = new ArrayList<>();
 
     public List<Producto> getProductos() {
@@ -30,6 +35,9 @@ public class ProductoRepository {
             return true;
         }
     }
+    public Producto saveProducto(Producto p){
+        return this.createProducto(p);
+    }
     public Producto updateProducto(Producto p) {
         for(Producto p2 : productos) {
             if (p.getId() == p2.getId()) {
@@ -42,6 +50,4 @@ public class ProductoRepository {
         }
         return null;
     }
-}
-
 }

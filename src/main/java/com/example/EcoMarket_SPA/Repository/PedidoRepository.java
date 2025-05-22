@@ -1,5 +1,12 @@
 package com.example.EcoMarket_SPA.Repository;
 
+import com.example.EcoMarket_SPA.Model.Pedido;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Repository
 public class PedidoRepository {
    private List<Pedido> pedidos = new ArrayList<>();
 
@@ -41,6 +48,4 @@ public class PedidoRepository {
         }
         return null;
     }
-}
-
 }
