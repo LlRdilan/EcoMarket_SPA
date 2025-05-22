@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/review")
+@RequestMapping("/api/reviews")
 public class ReviewController {
     @Autowired
     private ReviewServices reviewServices;
