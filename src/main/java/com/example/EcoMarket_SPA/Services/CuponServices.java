@@ -26,6 +26,10 @@ public class CuponServices {
         return cuponRepository.buscarCuponPorId(id);
     }
 
+    public Cupon actualizarCupon(Cupon Cupon) {
+        return cuponRepository.actualizarCupon(Cupon);
+    }
+
     public String eliminarCupon(int id) {
         cuponRepository.eliminarCupon(id);
         return "Cupon eliminado";
