@@ -45,7 +45,7 @@ public class CuponRepository {
         cupon1.setId(id);
         cupon1.setCodigo(cupon.getCodigo());
         cupon1.setDescuento(cupon.getDescuento());
-        //cupon1.setEstado();
+        cupon1.setEstado(cupon.getEstado());
         cupon1.setFechaExpiracion(cupon.getFechaExpiracion());
 
         listaCupones.set(idPosicion, cupon1);
