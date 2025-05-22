@@ -1,50 +1,57 @@
+package com.example.EcoMarket_SPA.Controller;
 
-package com.example.EcoMarket_SPA.Repository;
-
-import org.springframework.stereotype.Repository;
-import com.example.EcoMarket_SPA.Model.Inventario;
-import java.util.ArrayList;
+import com.example.EcoMarket_SPA.Model.Pedido;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import com.example.EcoMarket_SPA.Repository.ProductoRepository;
+import com.example.EcoMarket_SPA.Services.PedidoServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Repository
-public class InventarioRepository {
-    private List<Inventario> inventario = new ArrayList<>();
+@RestController
+@RequestMapping("/api/v1/pedidos")
+public class PedidoController {
+        @Autowired
+        private PedidoServices pedidoServices;
 
-    public List<Inventario> getInventario() {
-        return inventario;
-    }
+        @GetMapping
+        public ResponseEntity<List<Pedido>> getAllPedidos() {
+            List<Pedido> pedidos = pedidoServices.getPedidos();
+            return new ResponseEntity<>(pedidos, HttpStatus.OK);
+        }
 
-    public Inventario getInventario(int id){
-        for(Inventario i: inventario){
-            if(i.getId()==id){
-                return i;
+        @GetMapping("/{id}")
+        public ResponseEntity<Pedido> getPedidoById(@PathVariable int id) {
+            Pedido pedido = pedidoServices.getPedido(id);
+            if (pedido != null) {
+                return new ResponseEntity<>(pedido, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
-        return null;
-    }
 
-    public Inventario createInventario(Inventario i){
-        inventario.add(i);
-        return i;
-    }
-    public boolean deleteInventario(int id){
-        Inventario i = this.getInventario(id);
-        if(i==null){
-            return false;
-        }else{
-            inventario.remove(i);
-            return true;
+        @PostMapping
+        public ResponseEntity<Pedido> addPedido(@RequestBody Pedido pedido) {
+            Pedido nuevoPedido = pedidoServices.savePedido(pedido);
+            return new ResponseEntity<>(nuevoPedido, HttpStatus.CREATED);
         }
-    }
 
-    public Inventario updateInventario(Inventario i) {
-        for(Inventario i2 : inventario) {
-            if (i.getId() == i2.getId()) {
-                i2.setProducto(i.getProducto());
-                i2.setTienda(i.getTienda());
-                return i2;
+        @PutMapping("/{id}")
+        public ResponseEntity<Pedido> updatePedido(@PathVariable int id, @RequestBody Pedido pedido) {
+            pedido.setId(id);
+            Pedido actualizado = pedidoServices.updatePedido(pedido);
+            if (actualizado != null) {
+                return new ResponseEntity<>(actualizado, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
-        return null;
+
+        @DeleteMapping("/{id}")
+        public ResponseEntity<Void> deletePedido(@PathVariable int id) {
+            pedidoServices.deletePedido(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
-}
