@@ -14,5 +14,5 @@ public class Cupon {
     private String codigo;
     private double descuento;
     private LocalDate fechaExpiracion;
-    private boolean estado;
+    private Boolean estado;
 }
