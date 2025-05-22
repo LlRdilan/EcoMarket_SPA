@@ -1,26 +1,43 @@
-
 package com.example.EcoMarket_SPA.Services;
 
-import com.example.EcoMarket_SPA.Repository.ProovedorRepository;
 import com.example.EcoMarket_SPA.Model.Proovedor;
-import jakarta.transaction.Transactional;
+import com.example.EcoMarket_SPA.Repository.ProovedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
-@Transactional
 public class ProovedorServices {
 
+    @Autowired
     private ProovedorRepository proovedorRepository;
 
-    public Proovedor getProovedor(int id) {
-        return proovedorRepository.getProovedor(id);
+    public List<Proovedor> getProovedores() {
+        return proovedorRepository.findAll();
     }
 
-    public String deleteProovedor(int id) {
-        proovedorRepository.deleteProovedor(id);
-        return "Proveedor eliminado";
+    public Proovedor getProovedor(int id) {
+        return proovedorRepository.findById(id).orElse(null);
     }
-    //public Proovedor updateProovedor(Proovedor provedor) {}
+
+    public Proovedor saveProovedor(Proovedor proovedor) {
+        return proovedorRepository.save(proovedor);
+    }
+
+    public boolean deleteProovedor(int id) {
+        if (proovedorRepository.existsById(id)) {
+            proovedorRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public Proovedor updateProovedor(Proovedor proovedor) {
+        if (proovedorRepository.existsById(proovedor.getId())) {
+            return proovedorRepository.save(proovedor);
+        }
+        return null;
+    }
 }
