@@ -1,16 +1,19 @@
 package com.example.EcoMarket_SPA.Repository;
 
+import com.example.EcoMarket_SPA.Model.Proovedor;
 import java.util.ArrayList;
 import java.util.List;
+
 public class ProovedorRepository {
   private List<Proovedor> proovedor = new ArrayList<>();
+    private List<Proovedor> proovedores;
 
     public List<Proovedor> getProveedores() {
-        return proveedores;
+        return proovedores;
     }
 
     public Proovedor getProovedor(int id){
-        for(Proovedor pr: proveedores){
+        for(Proovedor pr: proovedores){
             if(pr.getId()==id){
                 return pr;
             }
@@ -19,7 +22,7 @@ public class ProovedorRepository {
     }
 
     public Proovedor createProovedor(Proovedor pr){
-        proveedores.add(pr);
+        proovedores.add(pr);
         return pr;
     }
     public boolean deleteProovedor(int id){
@@ -27,12 +30,12 @@ public class ProovedorRepository {
         if(pr==null){
             return false;
         }else{
-            proveedores.remove(pr);
+            proovedores.remove(pr);
             return true;
         }
     }
     public Proovedor updateProovedor(Proovedor pr) {
-        for(Proovedor pr2 : proveedores) {
+        for(Proovedor pr2 : proovedores) {
             if (pr.getId() == pr2.getId()) {
                 pr2.setNombre(pr.getNombre());
                 pr2.setContacto(pr.getContacto());
