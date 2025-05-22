@@ -1,6 +1,5 @@
 package com.example.EcoMarket_SPA.Services;
 
-
 import com.example.EcoMarket_SPA.Model.Cliente;
 import com.example.EcoMarket_SPA.Repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,23 +14,29 @@ public class ClienteServices {
     private ClienteRepository clienteRepository;
 
     public List<Cliente> getClientes() {
-        return clienteRepository.obtenerListaClientes();
+        return clienteRepository.findAll();
     }
 
     public Cliente guardarCliente(Cliente cliente) {
-        return clienteRepository.agregarCliente(cliente);
+        return clienteRepository.save(cliente);
     }
 
     public Cliente obtenerCliente(int id) {
-        return clienteRepository.buscarClientePorId(id);
+        return clienteRepository.findById(id).orElse(null);
     }
 
     public Cliente actualizarCliente(Cliente cliente) {
-        return clienteRepository.actualizarCliente(cliente);
+        if (clienteRepository.existsById(cliente.getId())) {
+            return clienteRepository.save(cliente);
+        }
+        return null;
     }
 
-    public String eliminarCliente(int id) {
-        clienteRepository.eliminarCliente(id);
-        return "Cliente eliminado";
+    public boolean eliminarCliente(int id) {
+        if (clienteRepository.existsById(id)) {
+            clienteRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

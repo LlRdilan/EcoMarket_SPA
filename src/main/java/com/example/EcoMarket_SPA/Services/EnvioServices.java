@@ -14,23 +14,29 @@ public class EnvioServices {
     private EnvioRepository envioRepository;
 
     public List<Envio> getEnvios() {
-        return envioRepository.obetenrListaEnvios();
+        return envioRepository.findAll();
     }
 
     public Envio guardarEnvio(Envio envio) {
-        return envioRepository.guardarEnvio(envio);
+        return envioRepository.save(envio);
     }
 
     public Envio obtenerEnvio(int id) {
-        return envioRepository.buscarEnvio(id);
+        return envioRepository.findById(id).orElse(null);
     }
 
     public Envio actualizarEnvio(Envio envio) {
-        return envioRepository.actualizarEnvio(envio);
+        if (envioRepository.existsById(envio.getId())) {
+            return envioRepository.save(envio);
+        }
+        return null;
     }
 
-    public String eliminarEnvio(int id) {
-        envioRepository.eliminarEnvio(id);
-        return "Envio eliminado";
+    public boolean eliminarEnvio(int id) {
+        if (envioRepository.existsById(id)) {
+            envioRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

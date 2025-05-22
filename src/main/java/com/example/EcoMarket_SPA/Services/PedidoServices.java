@@ -1,39 +1,42 @@
-
 package com.example.EcoMarket_SPA.Services;
 
-import java.util.List;
 import com.example.EcoMarket_SPA.Model.Pedido;
-import com.example.EcoMarket_SPA.Model.Producto;
 import com.example.EcoMarket_SPA.Repository.PedidoRepository;
-import com.example.EcoMarket_SPA.Repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PedidoServices {
+
     @Autowired
-    private final ProductoRepository productoRepository;
     private PedidoRepository pedidoRepository;
 
-    public PedidoServices(ProductoRepository productoRepository) {
-        this.productoRepository = productoRepository;
-    }
-
     public List<Pedido> getPedidos() {
-        return pedidoRepository.getPedidos();
+        return pedidoRepository.findAll();
     }
 
     public Pedido getPedido(int id) {
-        return pedidoRepository.getPedido(id);
+        return pedidoRepository.findById(id).orElse(null);
     }
 
-    public String deletePedido(int id) {
-        productoRepository.deleteProducto(id);
-        return "Pedido eliminado";
+    public Pedido savePedido(Pedido pedido) {
+        return pedidoRepository.save(pedido);
     }
 
     public Pedido updatePedido(Pedido pedido) {
-        Producto existingproducto = productoRepository.getProducto(pedido.getProductos().get(0).getId());
-        return pedido;
+        if (pedidoRepository.existsById(pedido.getId())) {
+            return pedidoRepository.save(pedido);
+        }
+        return null;
+    }
+
+    public boolean deletePedido(int id) {
+        if (pedidoRepository.existsById(id)) {
+            pedidoRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

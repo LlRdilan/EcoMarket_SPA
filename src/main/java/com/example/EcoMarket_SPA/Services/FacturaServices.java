@@ -13,24 +13,30 @@ public class FacturaServices {
     @Autowired
     private FacturaRepository facturaRepository;
 
-    public List<Factura> getFacturas(){
-        return facturaRepository.obtenerFacturas();
+    public List<Factura> getFacturas() {
+        return facturaRepository.findAll();
     }
 
-    public Factura guardarFactura(Factura factura){
-        return facturaRepository.agregarFactura(factura);
+    public Factura guardarFactura(Factura factura) {
+        return facturaRepository.save(factura);
     }
 
-    public Factura obtenerFactura(int id){
-        return facturaRepository.buscarFactura(id);
+    public Factura obtenerFactura(int id) {
+        return facturaRepository.findById(id).orElse(null);
     }
 
-    public Factura actualizarFactura(Factura factura){
-        return facturaRepository.actualizarFactura(factura);
+    public Factura actualizarFactura(Factura factura) {
+        if (facturaRepository.existsById(factura.getId())) {
+            return facturaRepository.save(factura);
+        }
+        return null;
     }
 
-    public String eliminarFactura(int id){
-        facturaRepository.eliminarFactura(id);
-        return "Factura eliminada";
+    public boolean eliminarFactura(int id) {
+        if (facturaRepository.existsById(id)) {
+            facturaRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

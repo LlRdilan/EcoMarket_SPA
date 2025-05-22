@@ -1,6 +1,5 @@
 package com.example.EcoMarket_SPA.Services;
 
-
 import com.example.EcoMarket_SPA.Model.Cupon;
 import com.example.EcoMarket_SPA.Repository.CuponRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,23 +14,29 @@ public class CuponServices {
     private CuponRepository cuponRepository;
 
     public List<Cupon> getCupons() {
-        return cuponRepository.obtenerListaCupones();
+        return cuponRepository.findAll();
     }
 
-    public Cupon guardarCupon(Cupon Cupon) {
-        return cuponRepository.agregarCupon(Cupon);
+    public Cupon guardarCupon(Cupon cupon) {
+        return cuponRepository.save(cupon);
     }
 
     public Cupon obtenerCupon(int id) {
-        return cuponRepository.buscarCuponPorId(id);
+        return cuponRepository.findById(id).orElse(null);
     }
 
-    public Cupon actualizarCupon(Cupon Cupon) {
-        return cuponRepository.actualizarCupon(Cupon);
+    public Cupon actualizarCupon(Cupon cupon) {
+        if (cuponRepository.existsById(cupon.getId())) {
+            return cuponRepository.save(cupon);
+        }
+        return null;
     }
 
-    public String eliminarCupon(int id) {
-        cuponRepository.eliminarCupon(id);
-        return "Cupon eliminado";
+    public boolean eliminarCupon(int id) {
+        if (cuponRepository.existsById(id)) {
+            cuponRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProovedorServices {
@@ -26,18 +25,19 @@ public class ProovedorServices {
         return proovedorRepository.save(proovedor);
     }
 
+    public Proovedor updateProovedor(int id, Proovedor proovedor) {
+        if (proovedorRepository.existsById(id)) {
+            proovedor.setId(id);
+            return proovedorRepository.save(proovedor);
+        }
+        return null;
+    }
+
     public boolean deleteProovedor(int id) {
         if (proovedorRepository.existsById(id)) {
             proovedorRepository.deleteById(id);
             return true;
         }
         return false;
-    }
-
-    public Proovedor updateProovedor(Proovedor proovedor) {
-        if (proovedorRepository.existsById(proovedor.getId())) {
-            return proovedorRepository.save(proovedor);
-        }
-        return null;
     }
 }
